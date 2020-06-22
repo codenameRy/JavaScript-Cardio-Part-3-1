@@ -118,17 +118,72 @@ seekAndDestroy2([2, 3, 4, 6, 6, 'hello'], 2, 6, 'hello')
 // a = [-1, 150, 190, 170, -1, -1, 160, 180]
 // sortByHeight(a) == [-1, 150, 160, 170, -1, -1, 180, 190]
 
+//Solution
 function sortByHeight(a) {
-  const arr1 = [];
-  const arr2 = [];
+  const arr1 = []; //Store position in this array
+  const arr2 = []; //Store all the values that are not -1
 
-  a.forEach((val, i) => (val === -1 ? arr1.push(i) : arr2.push(val)));
-
+//val represents each value / i for the position
+  a.forEach((val, i) => (val === -1 ? arr1.push(i) : arr2.push(val) ) );
+  //Sort values (arr2) lowest to highest
   const sortArr = arr2.sort((a, b) => a - b);
 
   arr1.forEach((val, i) => sortArr.splice(arr1[i], 0, -1));
 
   return sortArr;
+  //Check the position of -1 and numbers in the array
+  // console.log(arr1, arr2) 
 }
 
 console.log(sortByHeight([-1, 150, 190, 170, -1, -1, 160, 180]))
+
+//Solution 2
+function sortByHeight2(a) {
+// filtering out and sorting all "humans"
+const trees = a.filter(v => v !== -1).sort((a, b) => a - b)
+// put sorted "trees" back
+return a.map(v => v !== -1? trees.shift() : -1)
+}
+
+console.log(sortByHeight2([-1, 150, 190, 170, -1, -1, 160, 180]))
+
+// CHALLENGE 5: MISSING LETTERS
+// Find the missing letter in the passed letter range and return it. If all letters are present, return undefined
+// ex.
+// missingLetters("abce") == "d"
+// missingLetters("abcdefghjklmno") == "i"
+// missingLetters("abcdefghijklmnopqrstuvwxyz") == undefined
+
+function missingLetters(str) {
+  let compare = str.charCodeAt(0); // first char code of the first letter
+  let missing; //investigate which letter is missing
+  // return compare;
+
+   str.split('').map((char, i) => {
+    if (str.charCodeAt(i) == compare) {
+      ++compare
+    } else {
+      missing = String.fromCharCode(compare)
+    }
+  });
+
+  return missing;
+}
+
+console.log(missingLetters('abcdf'));
+
+// CHALLENGE 6: EVEN & ODD SUMS
+// Take in an array and return an array of the sums of even and odd numbers
+// ex.
+// evenOddSums([50, 60, 60, 45, 71]) == [170, 116]
+
+function evenOddSums(arr) {
+  let evenSum = 0;
+  let oddSum = 0;
+
+  arr.forEach(num => (num % 2 === 0 ? (evenSum += num) : (oddSum += num)));
+
+  return [evenSum, oddSum];
+}
+
+console.log(evenOddSums([50, 60, 60, 45, 71]))
